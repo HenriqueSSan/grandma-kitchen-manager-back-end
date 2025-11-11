@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+    "start": "node dist/app.js",
+    "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/app.ts"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,7 @@
   },
   "homepage": "https://github.com/HenriqueSSan/grandma-kitchen-manager-back-end#readme",
   "dependencies": {
+    "@prisma/client": "^6.19.0",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
