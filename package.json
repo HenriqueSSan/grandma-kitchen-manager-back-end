@@ -17,5 +17,24 @@
   "bugs": {
     "url": "https://github.com/HenriqueSSan/grandma-kitchen-manager-back-end/issues"
   },
-  "homepage": "https://github.com/HenriqueSSan/grandma-kitchen-manager-back-end#readme"
+  "homepage": "https://github.com/HenriqueSSan/grandma-kitchen-manager-back-end#readme",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "lodash": "^4.17.21",
+    "multer": "^2.0.2",
+    "prisma": "^6.19.0",
+    "swagger-ui-express": "^5.0.1",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "@types/multer": "^2.0.0",
+    "@types/swagger-ui-express": "^4.1.8"
+  }
 }
