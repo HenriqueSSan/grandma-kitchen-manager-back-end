@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { productCreateUsecase } from '../module_core/module_product/controller/factory';
+import { productCreateUsecase, productDeleteUsecase } from '../module_core/module_product/controller/factory';
 
 import { AppError } from '../infra/core/app-error';
 
@@ -31,6 +31,16 @@ export class ProductController {
   }
 
   async delete(req: Request, res: Response) {
-    res.json({ message: '[TODO]' });
+    try {
+      const productDeleteUsecaseResponse = await productDeleteUsecase.handle(req, res);
+
+      res.status(202).json(productDeleteUsecaseResponse).send();
+    } catch (err: unknown) {
+      if (err instanceof AppError) {
+        res.status(err.http_code).json({
+          error_message: err.msg,
+        });
+      }
+    }
   }
 }
