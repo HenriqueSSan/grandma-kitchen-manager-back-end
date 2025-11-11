@@ -1,4 +1,7 @@
 import { Request, Response } from 'express';
+import { productCreateUsecase } from '../module_core/module_product/controller/factory';
+
+import { AppError } from '../infra/core/app-error';
 
 export class ProductController {
   async list(req: Request, res: Response) {
@@ -10,7 +13,17 @@ export class ProductController {
   }
 
   async create(req: Request, res: Response) {
-    res.json({ message: '[TODO]' });
+    try {
+      const productCreateUsecaseResponse = await productCreateUsecase.handle(req, res);
+
+      res.status(201).json(productCreateUsecaseResponse).send();
+    } catch (err: unknown) {
+      if (err instanceof AppError) {
+        res.status(err.http_code).json({
+          error_message: err.msg,
+        });
+      }
+    }
   }
 
   async update(req: Request, res: Response) {
