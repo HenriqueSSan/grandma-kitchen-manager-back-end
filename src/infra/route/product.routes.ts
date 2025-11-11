@@ -1,28 +1,20 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { ProductController } from '../../module_controller/product.controller';
 
 const router = express.Router();
 
 const productController = new ProductController();
 
-router.get('/products', async (req, res) => {
-  await productController.list(req, res);
-});
+const controller =
+  (controllerMethodStringIndex: keyof typeof productController) =>
+  async (req: Request, res: Response) => {
+    await productController[controllerMethodStringIndex](req, res);
+  };
 
-router.get('/products/:product_id', async (req, res) => {
-  await productController.query(req, res);
-});
-
-router.post('/products', async (req, res) => {
-  await productController.create(req, res);
-});
-
-router.put('/products/:product_id', async (req, res) => {
-  await productController.update(req, res);
-});
-
-router.delete('/products/:product_id', async (req, res) => {
-  await productController.update(req, res);
-});
+router.get('/', controller('list'));
+router.get('/:product_id', controller('query'));
+router.post('/', controller('create'));
+router.put('/:product_id', controller('update'));
+router.delete('/:product_id', controller('delete'));
 
 export { router as product_router };

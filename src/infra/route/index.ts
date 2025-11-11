@@ -1,5 +1,8 @@
-import express from "express"
+import express from 'express';
+import { product_router } from './product.routes';
 
-const router = express.Router()
+const router = express.Router();
 
-export default router
+router.use('/products', product_router);
+
+export default router;
