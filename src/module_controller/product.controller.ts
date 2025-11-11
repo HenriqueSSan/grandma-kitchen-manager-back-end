@@ -4,6 +4,7 @@ import {
   productDeleteUsecase,
   productListUsecase,
   productQueryUsecase,
+  productUpdateUsecase,
 } from '../module_core/module_product/controller/factory';
 
 import { AppError } from '../infra/core/app-error';
@@ -52,7 +53,17 @@ export class ProductController {
   }
 
   async update(req: Request, res: Response) {
-    res.json({ message: '[TODO]' });
+    try {
+      const productUpdateUsecaseResponse = await productUpdateUsecase.handle(req, res);
+
+      res.status(201).json(productUpdateUsecaseResponse).send();
+    } catch (err: unknown) {
+      if (err instanceof AppError) {
+        res.status(err.http_code).json({
+          error_message: err.msg,
+        });
+      }
+    }
   }
 
   async delete(req: Request, res: Response) {
