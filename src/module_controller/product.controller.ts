@@ -1,11 +1,25 @@
 import { Request, Response } from 'express';
-import { productCreateUsecase, productDeleteUsecase } from '../module_core/module_product/controller/factory';
+import {
+  productCreateUsecase,
+  productDeleteUsecase,
+  productListUsecase,
+} from '../module_core/module_product/controller/factory';
 
 import { AppError } from '../infra/core/app-error';
 
 export class ProductController {
   async list(req: Request, res: Response) {
-    res.json({ message: '[TODO]' });
+    try {
+      const productListUsecaseResponse = await productListUsecase.handle(req, res);
+
+      res.status(202).json(productListUsecaseResponse).send();
+    } catch (err: unknown) {
+      if (err instanceof AppError) {
+        res.status(err.http_code).json({
+          error_message: err.msg,
+        });
+      }
+    }
   }
 
   async query(req: Request, res: Response) {
