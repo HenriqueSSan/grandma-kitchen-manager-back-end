@@ -1,7 +1,7 @@
 import { Prisma, Product } from '@prisma/client';
 
 export interface ProductRepository {
-  count(payload: Prisma.ProductWhereInput): Promise<number>;
+  count(payload?: Prisma.ProductWhereInput): Promise<number>;
 
   list<T extends Prisma.ProductFindManyArgs>(
     payload: Prisma.SelectSubset<T, Prisma.ProductFindManyArgs>,
