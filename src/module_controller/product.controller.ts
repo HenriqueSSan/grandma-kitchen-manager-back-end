@@ -3,6 +3,7 @@ import {
   productCreateUsecase,
   productDeleteUsecase,
   productListUsecase,
+  productQueryUsecase,
 } from '../module_core/module_product/controller/factory';
 
 import { AppError } from '../infra/core/app-error';
@@ -12,7 +13,7 @@ export class ProductController {
     try {
       const productListUsecaseResponse = await productListUsecase.handle(req, res);
 
-      res.status(202).json(productListUsecaseResponse).send();
+      res.status(200).json(productListUsecaseResponse).send();
     } catch (err: unknown) {
       if (err instanceof AppError) {
         res.status(err.http_code).json({
@@ -23,7 +24,17 @@ export class ProductController {
   }
 
   async query(req: Request, res: Response) {
-    res.json({ message: '[TODO]' });
+    try {
+      const productQueryUsecaseResponse = await productQueryUsecase.handle(req, res);
+
+      res.status(200).json(productQueryUsecaseResponse).send();
+    } catch (err: unknown) {
+      if (err instanceof AppError) {
+        res.status(err.http_code).json({
+          error_message: err.msg,
+        });
+      }
+    }
   }
 
   async create(req: Request, res: Response) {
