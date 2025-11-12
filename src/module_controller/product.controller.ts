@@ -56,7 +56,7 @@ export class ProductController {
     try {
       const productUpdateUsecaseResponse = await productUpdateUsecase.handle(req, res);
 
-      res.status(201).json(productUpdateUsecaseResponse).send();
+      res.status(202).json(productUpdateUsecaseResponse).send();
     } catch (err: unknown) {
       if (err instanceof AppError) {
         res.status(err.http_code).json({

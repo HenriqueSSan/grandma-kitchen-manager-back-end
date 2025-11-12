@@ -1,0 +1,175 @@
+openapi: 3.0.4
+info:
+  title: Grandma Kitchen Manager
+  version: 1.0.0
+servers:
+tags:
+  - name: Product
+paths:
+  /products:
+    post:
+      tags:
+        - Product
+      summary: Criar um produto
+      requestBody:
+        description:
+          Informações que devem ser passadas para criar um produto
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+                - qty
+                - qty_minium
+              type: object
+              properties:
+                name:
+                  type: string
+                qty:
+                  type: integer
+                qty_minium:
+                  type: integer
+      responses:
+        '201':
+          description: Produto criado com sucesso!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    get:
+      tags:
+        - Product
+      summary: Listar os produtos
+      parameters:
+        - name: search
+          in: query
+          description: Fazer a busca por nome
+          schema:
+            type: string
+        - name: offset
+          in: query
+          required: true
+          description: Pular determinada quantidade de produtos.
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: true
+          description: Limite de produtos que serão listados.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Produto criado com sucesso!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        qty:
+                          type: integer
+                        qty_minium:
+                          type: integer
+                  
+  /products/{product_id}:
+    get:
+      tags:
+        - Product
+      parameters:
+      - name: product_id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: integer
+      summary: Pegar por identificador um produto
+      responses:
+        '200':
+          description: Busca concluída com sucesso!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  qty:
+                    type: integer
+                  qty_minium:
+                    type: integer
+    put:
+      tags:
+        - Product
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Identificador
+          schema:
+            type: integer
+      summary: Atualizar um produto
+      requestBody:
+        description:
+          Informações que devem ser passadas para atualizar um produto
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+              type: object
+              properties:
+                name:
+                  type: string
+                qty:
+                  type: integer
+                qty_minium:
+                  type: integer
+      responses:
+        '202':
+          description:
+            Informações que devem ser passadas para atualizar um produto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    delete:
+      tags:
+        - Product
+      parameters:
+      - name: product_id
+        in: path
+        required: true
+        description: Identificador
+        schema:
+          type: integer
+      summary: Excluir um produto
+      responses:
+        '200':
+          description: Produto Excluido com sucesso!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  schemas:
+      
