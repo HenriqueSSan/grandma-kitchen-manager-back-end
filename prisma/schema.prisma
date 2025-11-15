@@ -8,14 +8,58 @@ datasource db {
 }
 
 model Product {
-    id         Int    @id @default(autoincrement())
-    name       String @unique
-    qty        Int
-    qty_minium Int
+    id          Int      @id @default(autoincrement())
+    sku         String
+    name        String
+    description String
+    created_at  DateTime @default(now())
+    updated_at  DateTime @updatedAt
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
-    
+    category_id Int?
+    category    Category? @relation(fields: [category_id], references: [id])
+    stock       Stock?
 
+    @@unique([sku, name])
     @@map("product")
+}
+
+model Stock {
+    id         Int @id @default(autoincrement())
+    product_id Int @unique
+
+    price      Decimal @default(0)
+    quantity   Decimal @default(0)
+    cost_price Decimal @default(0)
+    product    Product @relation(fields: [product_id], references: [id])
+
+    @@map("stock")
+}
+
+model StockMove {
+    id            Int      @id @default(autoincrement())
+    product_id    Int
+    quantity      Int
+    catching_date DateTime
+
+    type StockMoveType
+
+    @@map("stock_moves")
+}
+
+model Category {
+    id        Int    @id @default(autoincrement())
+    name      String @unique
+    parent_id Int?
+
+    products Product[]
+
+    parent   Category?  @relation("CategoryHierarchy", fields: [parent_id], references: [id])
+    children Category[] @relation("CategoryHierarchy")
+
+    @@map("category")
+}
+
+enum StockMoveType {
+    OUT
+    IN
 }
