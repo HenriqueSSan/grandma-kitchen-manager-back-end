@@ -7,6 +7,16 @@ export class ProductCreateUsecase {
   constructor(private productRepository: ProductRepository) {}
 
   async handle(req: Request, res: Response) {
+    console.log(
+      SkuGenerator.handle().generate({
+        prefix: "KOKO",
+        productName: 'OVO',
+        brand: 'GRANJA LIZA',
+        category: 'ANIMAL',
+        separator: '_',
+      }),
+    );
+
     return {};
 
     // const productCreateDto = new ProductCreateDto(req.body.name, req.body.qty, req.body.qty_minium);

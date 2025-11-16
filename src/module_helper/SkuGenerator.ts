@@ -42,11 +42,15 @@ export class SkuGenerator implements SkuGeneratorInterface {
 
     let skuParts = [];
 
-    if (category) {
-      if (Array.isArray(category)) {
-        skuParts.push(category.map(cat => this.formatString(cat)).join(''));
+    if (prefix) {
+      skuParts.push(prefix);
+    }
+
+    if (productName) {
+      if (Array.isArray(productName)) {
+        skuParts.push(productName.map(name => this.formatProductName(name)).join(''));
       } else {
-        skuParts.push(this.formatString(category));
+        skuParts.push(this.formatProductName(productName));
       }
     }
 
@@ -58,16 +62,12 @@ export class SkuGenerator implements SkuGeneratorInterface {
       }
     }
 
-    if (productName) {
-      if (Array.isArray(productName)) {
-        skuParts.push(productName.map(name => this.formatProductName(name)).join(''));
+    if (category) {
+      if (Array.isArray(category)) {
+        skuParts.push(category.map(cat => this.formatString(cat)).join(''));
       } else {
-        skuParts.push(this.formatProductName(productName));
+        skuParts.push(this.formatString(category));
       }
-    }
-
-    if (prefix) {
-      skuParts.push(prefix);
     }
 
     skuParts.push(randomPart);
