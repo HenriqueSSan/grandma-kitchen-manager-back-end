@@ -11,11 +11,13 @@ model Product {
     id          Int      @id @default(autoincrement())
     sku         String
     name        String
+    price       Decimal  @default(0)
+    cost_price  Decimal  @default(0)
     description String
     created_at  DateTime @default(now())
     updated_at  DateTime @updatedAt
 
-    stock       Stock ?
+    stock       Stock?
     category_id Int?
     category    Category? @relation(fields: [category_id], references: [id])
     brand_id    Int?
@@ -29,21 +31,18 @@ model Stock {
     id         Int @id @default(autoincrement())
     product_id Int @unique
 
-    price      Decimal @default(0)
-    quantity   Decimal @default(0)
-    cost_price Decimal @default(0)
-    product    Product @relation(fields: [product_id], references: [id])
+    quantity Decimal @default(0)
+    product  Product @relation(fields: [product_id], references: [id])
 
     @@map("stock")
 }
 
 model StockMove {
-    id            Int      @id @default(autoincrement())
+    id            Int           @id @default(autoincrement())
     product_id    Int
     quantity      Int
     catching_date DateTime
-
-    type StockMoveType
+    type          StockMoveType
 
     @@map("stock_moves")
 }
