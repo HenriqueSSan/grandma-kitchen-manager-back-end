@@ -80,7 +80,7 @@ export class SkuGenerator implements SkuGeneratorInterface {
     return skuParts.join(separator);
   }
 
-  formatString(str: string) {
+  private formatString(str: string) {
     return str
       .toString()
       .toUpperCase()
@@ -88,7 +88,7 @@ export class SkuGenerator implements SkuGeneratorInterface {
       .substring(0, 4);
   }
 
-  formatProductName(str: string) {
+  private formatProductName(str: string) {
     return str
       .toString()
       .toUpperCase()
