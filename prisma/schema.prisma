@@ -1,0 +1,79 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = "file:./dev.db"
+}
+
+model Product {
+    id          Int      @id @default(autoincrement())
+    sku         String
+    name        String
+    price       Decimal  @default(0)
+    cost_price  Decimal  @default(0)
+    description String
+    created_at  DateTime @default(now())
+    updated_at  DateTime @updatedAt
+
+    stock       Stock?
+    category_id Int?
+    category    Category? @relation(fields: [category_id], references: [id])
+    brand_id    Int?
+    brand       Brand?    @relation(fields: [brand_id], references: [id])
+
+    @@unique([sku, name])
+    @@map("product")
+}
+
+model Stock {
+    id         Int @id @default(autoincrement())
+    product_id Int @unique
+
+    quantity Decimal @default(0)
+    product  Product @relation(fields: [product_id], references: [id])
+
+    @@map("stock")
+}
+
+model StockMove {
+    id            Int           @id @default(autoincrement())
+    product_id    Int
+    quantity      Int
+    catching_date DateTime
+    type          StockMoveType
+
+    @@map("stock_moves")
+}
+
+model Category {
+    id        Int    @id @default(autoincrement())
+    name      String @unique
+    parent_id Int?
+
+    products Product[]
+
+    parent   Category?  @relation("CategoryHierarchy", fields: [parent_id], references: [id])
+    children Category[] @relation("CategoryHierarchy")
+
+    @@map("category")
+}
+
+model Brand {
+    id        Int    @id @default(autoincrement())
+    name      String @unique
+    parent_id Int?
+
+    products Product[]
+
+    parent   Brand?  @relation("BrandHierarchy", fields: [parent_id], references: [id])
+    children Brand[] @relation("BrandHierarchy")
+
+    @@map("brand")
+}
+
+enum StockMoveType {
+    OUT
+    IN
+}
