@@ -15,9 +15,11 @@ model Product {
     created_at  DateTime @default(now())
     updated_at  DateTime @updatedAt
 
+    stock       Stock ?
     category_id Int?
     category    Category? @relation(fields: [category_id], references: [id])
-    stock       Stock?
+    brand_id    Int?
+    brand       Brand?    @relation(fields: [brand_id], references: [id])
 
     @@unique([sku, name])
     @@map("product")
@@ -57,6 +59,19 @@ model Category {
     children Category[] @relation("CategoryHierarchy")
 
     @@map("category")
+}
+
+model Brand {
+    id        Int    @id @default(autoincrement())
+    name      String @unique
+    parent_id Int?
+
+    products Product[]
+
+    parent   Brand?  @relation("BrandHierarchy", fields: [parent_id], references: [id])
+    children Brand[] @relation("BrandHierarchy")
+
+    @@map("brand")
 }
 
 enum StockMoveType {

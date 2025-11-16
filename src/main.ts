@@ -18,6 +18,6 @@ app.use(body_parser.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({ origin: 'http://localhost:5173' }));
-app.use('/', swagger.serve, swagger.setup(doc_file_parsed, doc_options));
+app.use('/docs', swagger.serve, swagger.setup(doc_file_parsed, doc_options));
 
 export { app };
